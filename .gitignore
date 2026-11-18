@@ -1,0 +1,14 @@
+# Prevent accidentally committing local secrets or large original project files
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+node_modules/
+.DS_Store
+Thumbs.db
+*.zip
+*.pdf
+!assets/certificates/*.pdf
+*.docx
+*.log
