@@ -37,14 +37,14 @@ window.PORTFOLIO_DATA = {
     tagline: 'ICT student · Developer · Curious problem solver',
     introduction: 'I work across software development, AI applications, and user experience — turning ideas into practical, thoughtfully built technology.',
     about: [
-      "I'm Eddrick, an Information and Communication Technology student at Rangsit University in Thailand.",
+      "Hi, I’m Eddrick. A student at Rangsit University in Bangkok, studying Information and Communication Technology.",
       "I enjoy exploring the overlap between software engineering, artificial intelligence, and human-centered design. My projects have involved web development, database systems, usability evaluation, and collaborative product building.",
-      "What motivates me most is making technology that is useful, understandable, and better for the people who use it."
+      "What really excites me about technology is making useful, understandable, and more people-friendly tech."
     ],
     links: {
       github: 'https://github.com/Iluvabees', // Verified connected public GitHub profile
       linkedin: '',  // Add your profile URL when ready
-      resume: ''     // Add an actual PDF file path or URL when ready
+      resume: 'assets/cv/Eddrick-Full-CV.pdf' // General, full CV; not a company-specific résumé
     }
   },
   // Add, reorder, or hide tools below without touching layouts.

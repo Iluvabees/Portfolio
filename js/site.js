@@ -30,9 +30,9 @@
   const arrow = '<span class="btn-arrow" aria-hidden="true">↗</span>';
   const tagList = (tags, limit) => `<div class="project-tags">${(tags || []).slice(0,limit || 20).map(x => `<span class="project-tag">${esc(x)}</span>`).join('')}</div>`;
   const projectRoute = project => `#/project/${encodeURIComponent(project.slug)}`;
-  const sectionIntro = (number, title, emphasis, description) => `
+  const sectionIntro = (label, title, emphasis, description) => `
     <div class="section-header reveal">
-      <div><span class="eyebrow"><span class="line"></span>${esc(number)}</span><h2 class="section-title">${esc(title)} <span class="accent-serif">${esc(emphasis)}</span></h2></div>
+      <div><span class="eyebrow"><span class="line"></span>${esc(label)}</span><h2 class="section-title">${esc(title)} <span class="accent-serif">${esc(emphasis)}</span></h2></div>
       <p class="section-desc">${esc(description)}</p>
     </div>`;
 
@@ -70,7 +70,7 @@
         <p class="eyebrow"><span class="line"></span>${esc(p.tagline)}</p>
         <h1 id="hero-title" class="display">${esc(headline[0] || 'I build')} <span class="accent">${esc(headline[1] || 'digital')}</span> ${esc(headline[2] || 'things that')} <span class="accent-serif">${esc(headline[3] || 'make sense.')}</span></h1>
         <p class="hero-intro">${esc(p.introduction)}</p>
-        <div class="hero-actions">${sectionOn('work') ? `<a class="btn btn--light" href="#work">Explore my work ${arrow}</a>` : ''}${sectionOn('about') ? '<a class="text-link" href="#about">A little about me <span class="arrow" aria-hidden="true">↗</span></a>' : ''}</div>
+        <div class="hero-actions">${sectionOn('work') ? `<a class="btn btn--light" href="#work">Explore my work ${arrow}</a>` : ''}${linkSafe(p.links?.resume) ? `<a class="text-link" href="${esc(p.links.resume)}" target="_blank" rel="noopener noreferrer" aria-label="Read my full CV (opens in a new tab)">View full CV <span class="arrow" aria-hidden="true">↗</span></a>` : ''}</div>
       </div>
       <div class="hero-visual" aria-label="Portrait area"><div class="portrait-card">${portrait}<div class="portrait-card__bottom"><span>BEHIND THE CODE</span><span>✳ / 2026</span></div></div><div class="portrait-sticker"><strong>Hi, I'm<br>${esc(p.displayName)}.</strong><small>Nice to meet you ↗</small></div></div>
       </div><div class="container hero-footer"><span>${esc(p.fullName)} · ${esc(p.location)}</span>${sectionOn('work') ? '<a class="footer-scroll" href="#work">SCROLL TO EXPLORE <span class="scroll-line"></span><span aria-hidden="true">↓</span></a>' : ''}</div></section>`;
@@ -88,7 +88,7 @@
     const projects = enabled(data.projects);
     const filters = [['all','All projects'],['ai','AI'],['software','Software'],['data','Data'],['design','UX']];
     return `<section class="section work-section" id="work" aria-labelledby="work-title"><div class="container">
-      ${sectionIntro('01 / SELECTED WORK','Things I’ve','built.','Some projects are about code. Others are about people. All of them have taught me something worth sharing.').replace('<h2 class="section-title">','<h2 id="work-title" class="section-title">')}
+      ${sectionIntro('SELECTED WORK','Things I’ve','built.','Some projects are about code. Others are about people. All of them have taught me something worth sharing.').replace('<h2 class="section-title">','<h2 id="work-title" class="section-title">')}
       <div class="work-toolbar"><div class="filter-row" role="group" aria-label="Filter projects">${filters.map(([filter, label]) => `<button type="button" class="filter-btn" data-filter="${filter}" aria-pressed="${activeFilter === filter}">${label}</button>`).join('')}</div><span class="work-count" role="status" aria-live="polite">${projects.length} selected projects</span></div>
       <div class="project-grid" id="project-grid">${projects.map(projectCard).join('') || '<div class="empty-state"><strong>Projects coming soon.</strong><p>More projects will be shared here as they are ready.</p></div>'}</div>
       ${drafting() ? '<div class="work-after"><p>Illustrated previews are placeholders until real screenshots and project links are ready.</p></div>' : ''}
@@ -98,9 +98,9 @@
   function about() {
     const p = data.personal;
     return `<section class="section about-section" id="about" aria-labelledby="about-title"><div class="container">
-      <div class="about-grid"><div class="reveal"><span class="eyebrow"><span class="line"></span>02 / THE PERSON</span><h2 id="about-title" class="about-lead">A curious mind, an eye for <em class="accent-serif">details,</em> and a drive to keep building.</h2></div>
+      <div class="about-grid"><div class="reveal"><span class="eyebrow"><span class="line"></span>THE PERSON</span><h2 id="about-title" class="about-lead">A curious mind, an eye for <em class="accent-serif">details,</em> and a drive to keep building.</h2></div>
       <div class="about-copy reveal">${(p.about || []).map(paragraph => `<p>${esc(paragraph)}</p>`).join('')}<div class="about-signature"><span aria-hidden="true"></span>${esc(p.fullName)} / ${esc(p.displayName)}</div></div></div>
-      <div class="skills-grid">${(data.skills || []).map((group,i)=> `<div class="skill-panel reveal"><span class="mini-index">0${i+1} / SKILLSET</span><h3>${esc(group.title)}</h3><ul>${(group.items||[]).map(item=>`<li>${esc(item)}</li>`).join('')}</ul></div>`).join('')}</div>
+      <div class="skills-grid">${(data.skills || []).map((group,i)=> `<div class="skill-panel reveal"><span class="mini-index">SKILLSET</span><h3>${esc(group.title)}</h3><ul>${(group.items||[]).map(item=>`<li>${esc(item)}</li>`).join('')}</ul></div>`).join('')}</div>
     </div></section>`;
   }
 
@@ -118,10 +118,10 @@
     const experience = enabled(data.experience);
     const milestones = enabled(data.milestones);
     return `<section class="section journey-section" id="journey" aria-labelledby="journey-title"><div class="container">
-      ${sectionIntro('03 / THE PATH SO FAR','Experience &','education.','A snapshot of where I have studied, taught, and grown — with room for what comes next.').replace('<h2 class="section-title">','<h2 id="journey-title" class="section-title">')}
-      <div class="timeline-layout"><div class="reveal"><div class="timeline-heading"><h3>Education</h3><span>01 / LEARNING</span></div>
+      ${sectionIntro('THE PATH SO FAR','Experience &','education.','A snapshot of where I have studied, taught, and grown — with room for what comes next.').replace('<h2 class="section-title">','<h2 id="journey-title" class="section-title">')}
+      <div class="timeline-layout"><div class="reveal"><div class="timeline-heading"><h3>Education</h3><span>LEARNING</span></div>
       ${education.map(entry => `<article class="timeline-entry"><span class="timeline-date">${esc(entry.dates)}</span><h4>${esc(entry.institution)}</h4><p class="timeline-role">${esc(entry.qualification)}</p><p>${esc(entry.location)}</p>${entry.detail ? `<p><strong>${esc(entry.detail)}</strong></p>` : ''}${entry.notes ? `<p>${esc(entry.notes)}</p>` : ''}</article>`).join('') || '<p>No education entries shown.</p>'}
-      </div><div class="reveal"><div class="timeline-heading"><h3>Experience</h3><span>02 / DOING</span></div>
+      </div><div class="reveal"><div class="timeline-heading"><h3>Experience</h3><span>DOING</span></div>
       ${experience.map(entry=>`<article class="timeline-entry"><span class="timeline-date">${esc(entry.dates)}</span><h4>${esc(entry.organization)}</h4><p class="timeline-role">${esc(entry.position)} · ${esc(entry.location)}</p><ul>${(entry.details||[]).map(item=>`<li>${esc(item)}</li>`).join('')}</ul></article>`).join('') || '<p>No experience entries shown.</p>'}
       ${drafting() ? '<div class="draft-inline">+ More roles, internships, volunteer work, or leadership experience can be added here later. This note can be hidden for launch.</div>' : ''}
       </div></div>
@@ -134,7 +134,7 @@
     const certificates = enabled(data.certificates);
     if (!certificates.length) return '';
     return `<section class="section certificates-section" id="certificates" aria-labelledby="certificates-title"><div class="container">
-      ${sectionIntro('04 / OFF THE CLOCK','Speaking &','learning.','A few opportunities to share ideas, facilitate conversations, and keep exploring technology beyond coursework.').replace('<h2 class="section-title">','<h2 id="certificates-title" class="section-title">')}
+      ${sectionIntro('OFF THE CLOCK','Speaking &','learning.','A few opportunities to share ideas, facilitate conversations, and keep exploring technology beyond coursework.').replace('<h2 class="section-title">','<h2 id="certificates-title" class="section-title">')}
       <div class="certificates-grid">${certificates.map((entry,index)=>`<article class="certificate-card" data-certificate-theme="${esc(entry.theme || 'navy')}">
         <a class="certificate-card__visual" href="${esc(entry.file || entry.image)}" target="_blank" rel="noopener noreferrer" aria-label="Open certificate: ${esc(entry.title)} (new tab)">
           <img src="${esc(entry.image)}" alt="${esc(entry.alt || entry.title)}" loading="lazy" decoding="async" width="1600" height="1131">
@@ -153,7 +153,7 @@
     if (!moments.length) return '';
     const withPhotos = moments.filter(m => m.image);
     const coming = moments.filter(m => !m.image);
-    const momentIntro = sectionIntro('05 / OFF THE SCREEN','Beyond the','browser.','The people, events, and experiences that shape the work beyond the code.').replace('<h2 class="section-title">','<h2 id="moments-title" class="section-title">');
+    const momentIntro = sectionIntro('OFF THE SCREEN','Beyond the','browser.','The people, events, and experiences that shape the work beyond the code.').replace('<h2 class="section-title">','<h2 id="moments-title" class="section-title">');
     const published = withPhotos.length ? `<div class="moments-grid">${withPhotos.map((m,i) => `<article class="moment reveal"><div class="moment-photo"><img src="${esc(m.image)}" alt="${esc(m.alt || m.title)}" loading="lazy" decoding="async"></div><div class="moment-meta"><div><h3>${esc(m.title)}</h3><p>${esc(m.detail || '')}</p></div><span class="moment-index">${String(i+1).padStart(2,'0')}</span></div></article>`).join('')}</div>` : '';
     const teaser = coming.length ? `<div class="moments-coming reveal"><div class="moments-coming__stamp"><span class="moments-coming__asterisk" aria-hidden="true">✳</span><span>STORIES IN PROGRESS</span></div><div class="moments-coming__copy"><span class="moments-coming__eyebrow">THE PERSONAL ARCHIVE / UP NEXT</span><h3>More moments,<br><em>coming soon.</em></h3><p>More campus events, team projects, and behind-the-scenes stories will join this collection over time.</p><div class="moments-coming__topics">${coming.map(m => `<span>${esc(m.title)}</span>`).join('')}</div></div><span class="moments-coming__corner" aria-hidden="true">↗</span></div>` : '';
     return `<section class="section moments-section" id="moments" aria-labelledby="moments-title"><div class="container">${momentIntro}${published}${teaser}</div></section>`;
@@ -164,9 +164,9 @@
     const extra = [];
     if (linkSafe(p.links?.github)) extra.push(`<a href="${esc(p.links.github)}" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>`);
     if (linkSafe(p.links?.linkedin)) extra.push(`<a href="${esc(p.links.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>`);
-    if (linkSafe(p.links?.resume)) extra.push(`<a href="${esc(p.links.resume)}" target="_blank" rel="noopener noreferrer">View résumé <span aria-hidden="true">↗</span></a>`);
+    if (linkSafe(p.links?.resume)) extra.push(`<a href="${esc(p.links.resume)}" target="_blank" rel="noopener noreferrer">View full CV <span aria-hidden="true">↗</span></a>`);
     if (p.showPhonePublicly && p.phone) extra.push(`<a href="tel:${esc(p.phone.replace(/[^+\d]/g,''))}">${esc(p.phone)} <span aria-hidden="true">↗</span></a>`);
-    return `<footer class="contact-section" id="contact"><div class="container"><div class="contact-grid"><div><span class="eyebrow"><span class="line"></span>05 / REACH OUT</span><h2 class="contact-heading display">Let's make <em class="accent-serif">something</em> work.</h2></div><div><p class="contact-intro">Have an opportunity, collaboration, or interesting idea? I'm always happy to have a conversation.</p><div class="contact-links"><a href="mailto:${esc(p.email)}">${esc(p.email)} <span aria-hidden="true">↗</span></a>${extra.join('')}</div></div></div><div class="footer-bottom"><span>© <span id="copyright-year">2026</span> ${esc(p.displayName)}. Built with intention.</span><span>${esc(p.location)}</span>${detailMode ? '<button type="button" class="footer-back" data-scroll-top>Back to top ↑</button>' : '<a href="#top">Back to top ↑</a>'}</div></div></footer>`;
+    return `<footer class="contact-section" id="contact"><div class="container"><div class="contact-grid"><div><span class="eyebrow"><span class="line"></span>REACH OUT</span><h2 class="contact-heading display">Let's make <em class="accent-serif">something</em> work.</h2></div><div><p class="contact-intro">Have an opportunity, collaboration, or interesting idea? I'm always happy to have a conversation.</p><div class="contact-links"><a href="mailto:${esc(p.email)}">${esc(p.email)} <span aria-hidden="true">↗</span></a>${extra.join('')}</div></div></div><div class="footer-bottom"><span>© <span id="copyright-year">2026</span> ${esc(p.displayName)}. Built with intention.</span><span>${esc(p.location)}</span>${detailMode ? '<button type="button" class="footer-back" data-scroll-top>Back to top ↑</button>' : '<a href="#top">Back to top ↑</a>'}</div></div></footer>`;
   }
 
   function renderHome() {
