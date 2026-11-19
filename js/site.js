@@ -170,7 +170,7 @@
   }
 
   function renderHome() {
-    document.title = `${data.personal.displayName} — Developer & Creative Technologist`;
+    document.title = `${data.personal.displayName}'s Portfolio`;
     return [
       sectionOn('hero') ? hero() : '<div id="top"></div>',
       sectionOn('work') ? work() : '',

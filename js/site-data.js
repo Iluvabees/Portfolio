@@ -35,7 +35,7 @@ window.PORTFOLIO_DATA = {
     portraitAlt: 'Portrait of Eddrick',
     headlineParts: ['I build', 'digital', 'things that', 'make sense.'], // Four independently styled phrases for the homepage
     tagline: 'ICT student · Developer · Curious problem solver',
-    introduction: 'I work across software development, AI applications, and user experience — turning ideas into practical, thoughtfully built technology.',
+    introduction: 'I enjoy building software, exploring AI, and thinking about how people actually use technology. I like learning by building things, solving problems, and working with others.',
     about: [
       "Hi, I’m Eddrick. A student at Rangsit University in Bangkok, studying Information and Communication Technology.",
       "I enjoy exploring the overlap between software engineering, artificial intelligence, and human-centered design. My projects have involved web development, database systems, usability evaluation, and collaborative product building.",
