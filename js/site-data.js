@@ -31,7 +31,7 @@ window.PORTFOLIO_DATA = {
     email: 'eddricksettnaing@gmail.com',
     phone: '', // Optional; don't put a private number into public site source code
     showPhonePublicly: false,
-    portrait: '', // Example: 'assets/photos/portrait.jpg'
+    portrait: 'assets/photos/eddrick-portrait.jpg', // Original user-provided portfolio portrait
     portraitAlt: 'Portrait of Eddrick',
     headlineParts: ['I build', 'digital', 'things that', 'make sense.'], // Four independently styled phrases for the homepage
     tagline: 'ICT student · Developer · Curious problem solver',

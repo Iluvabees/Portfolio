@@ -1,5 +1,11 @@
 # Eddrick — Portfolio Website
 
+> **November 2026 update:** This complete GitHub Pages package includes the new professional portrait,
+> more comfortable mobile hero spacing, improved mobile CTA layout, and all existing projects, photos,
+> certificates, and the MotivNation demo. The portrait path is editable in `js/site-data.js`.
+> Upload the **contents** of this ZIP to the repository root, not the ZIP itself or an enclosing folder.
+
+
 A personal portfolio showcasing software projects, UX work, selected experience, and technical tools. Built with plain HTML, CSS, and JavaScript, with no build step.
 
 ## Published pages
