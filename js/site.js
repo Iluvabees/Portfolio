@@ -141,10 +141,10 @@
           <span class="certificate-card__open" aria-hidden="true">View original <span>↗</span></span>
         </a>
         <div class="certificate-card__details"><div class="certificate-card__meta"><span class="certificate-card__role">${esc(entry.role)}</span><time>${esc(entry.date)}</time></div>
-          <h3>${esc(entry.title)}</h3><p>${esc(entry.description || '')}</p>
+          <h3>${esc(entry.title)}</h3><p>${esc(entry.description || '')}${/IELTS/i.test(entry.title) ? ' Organizations may request the unredacted Test Report Form directly from me for verification.' : ''}</p>
           <a class="certificate-card__link" href="${esc(entry.file || entry.image)}" target="_blank" rel="noopener noreferrer">View certificate <span aria-hidden="true">↗</span></a>
         </div></article>`).join('')}</div>
-      <p class="certificates-footnote">Original certificates from university events and workshops.</p>
+      <p class="certificates-footnote">The public IELTS report is redacted for privacy. The other certificates document university presentations and workshops.</p>
     </div></section>`;
   }
 
@@ -154,7 +154,7 @@
     const withPhotos = moments.filter(m => m.image);
     const coming = moments.filter(m => !m.image);
     const momentIntro = sectionIntro('OFF THE SCREEN','Beyond the','browser.','The people, events, and experiences that shape the work beyond the code.').replace('<h2 class="section-title">','<h2 id="moments-title" class="section-title">');
-    const published = withPhotos.length ? `<div class="moments-grid">${withPhotos.map((m,i) => `<article class="moment reveal"><div class="moment-photo"><img src="${esc(m.image)}" alt="${esc(m.alt || m.title)}" loading="lazy" decoding="async"></div><div class="moment-meta"><div><h3>${esc(m.title)}</h3><p>${esc(m.detail || '')}</p></div><span class="moment-index">${String(i+1).padStart(2,'0')}</span></div></article>`).join('')}</div>` : '';
+    const published = withPhotos.length ? `<div class="moments-grid">${withPhotos.map(m => `<article class="moment reveal"><div class="moment-photo"><img src="${esc(m.image)}" alt="${esc(m.alt || m.title)}" loading="lazy" decoding="async"></div><div class="moment-meta"><div><h3>${esc(m.title)}</h3><p>${esc(m.detail || '')}</p></div></div></article>`).join('')}</div>` : '';
     const teaser = coming.length ? `<div class="moments-coming reveal"><div class="moments-coming__stamp"><span class="moments-coming__asterisk" aria-hidden="true">✳</span><span>STORIES IN PROGRESS</span></div><div class="moments-coming__copy"><span class="moments-coming__eyebrow">THE PERSONAL ARCHIVE / UP NEXT</span><h3>More moments,<br><em>coming soon.</em></h3><p>More campus events, team projects, and behind-the-scenes stories will join this collection over time.</p><div class="moments-coming__topics">${coming.map(m => `<span>${esc(m.title)}</span>`).join('')}</div></div><span class="moments-coming__corner" aria-hidden="true">↗</span></div>` : '';
     return `<section class="section moments-section" id="moments" aria-labelledby="moments-title"><div class="container">${momentIntro}${published}${teaser}</div></section>`;
   }
